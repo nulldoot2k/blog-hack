@@ -30,3 +30,7 @@ plugins:
 # Custom variables
 owner : "NullDoot2k"
 year : "2022"
+
+kramdown:
+  syntax_highlighter: rouge
+  input: GFM

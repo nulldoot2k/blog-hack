@@ -3,122 +3,158 @@ title: Yet Another Sample Page
 published: true
 ---
 
-Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`.
+## Install InfluxDB
 
-[Link to another page](another-page).
+Step1
 
-There should be whitespace between paragraphs.
+> sudo curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
 
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+Step 2
 
-# [](#header-1)Header 1
+> sudo echo "deb https://repos.influxdata.com/ubuntu bionic stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+Step 3
 
-## [](#header-2)Header 2
+> sudo apt update
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
+Step 4
 
-### [](#header-3)Header 3
+> sudo apt install influxdb
 
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
+Step 5 
+
+> sudo apt autoremove -y
+
+Step 6
+
+sudo systemctl status/start/restart/stop influxdb
+
+sudo systemctl enable --now influxdb
+
+
+## Configuring InfluxDB
+
+> sudo vi /etc/influxdb/influxdb.conf
+
+```bash
+[http]
+  enabled = true
+  bind-address = "localhost:8086"
+  auth-enabled = false
 ```
 
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
+> sudo vi /etc/prometheus/prometheus.yml
+
+```bash
+remote_write:
+  - url: "http://localhost:8086/api/v1/prom/write?db=prometheus"
+
+remote_read:
+  - url: "http://localhost:8086/api/v1/prom/read?db=prometheus"
 ```
 
-#### [](#header-4)Header 4
+## Reload Service
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
+```bash
+systemctl start influxdb
+systemctl enable influxdb
 
-##### [](#header-5)Header 5
+echo 'CREATE DATABASE "prometheus"' | influx
 
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
+systemctl start prometheus
+systemctl status prometheus
 
-###### [](#header-6)Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![](https://assets-cdn.github.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
+influx
+USE prometheus
+select * from /.*/ limit 1
 ```
 
-```
-The final element.
+## Note that
+
+> influx -host ip
+
+> ./influx -ssl -username <Username>-password <Password>-host <Domain name>-port 8086
+
+## Create account
+
+Như với bất kỳ cơ sở dữ liệu nào, sau khi cài đặt, điều đầu tiên cần làm là tạo tài khoản quản trị viên. Điều này có thể được thực hiện bằng cách sử dụng lệnh sau
+
+> curl -XPOST "http://localhost:8086/query" --data-urlencode "q=CREATE USER admin WITH PASSWORD 'password' WITH ALL PRIVILEGES"
+
+Khi tài khoản được tạo, hãy truy cập trình bao InfluxDB bằng cách sử dụng lệnh:
+
+> influx -username 'admin' -password 'password'
+
+> CREATE USER admin WITH PASSWORD '<password>' WITH ALL PRIVILEGES
+
+For example: CREATE USER admin WITH PASSWORD 'PaSsw0rd' WITH ALL PRIVILEGES
+
+Ví dụ: để truy cập dữ liệu được sử dụng trong hướng dẫn này và xem tất cả các cơ sở dữ liệu hiện có, lệnh thực thi sẽ là:
+
+> curl -G http://localhost:8086/query -u admin:password --data-urlencode "q=SHOW DATABASES"
+
+GRANT administrative privileges to an existing user
+
+> GRANT ALL PRIVILEGES TO <username>
+
+REVOKE administrative privileges from an admin user
+
+> REVOKE ALL PRIVILEGES FROM <username>
+
+SHOW all existing users and their admin status
+
+> SHOW USERS
+
+## Enabling the Firewall
+
+> sudo ufw allow 8086/tcp
+
+## Doc
+
+- https://docs.influxdata.com/influxdb/v1.8/supported_protocols/prometheus/
+
+- https://www.alibabacloud.com/help/en/time-series-database/latest/connect-to-tsdb-for-influxdb-by-using-the-influx-cli
+
+
+
+## InfluxDB 2
+
+> wget -qO- https://repos.influxdata.com/influxdb.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/influxdb.gpg > /dev/null
+
+> export DISTRIB_ID=$(lsb_release -si); export DISTRIB_CODENAME=$(lsb_release -sc)
+
+> echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list > /dev/null
+
+> apt-get update
+
+> apt-get install influxdb2
+
+Check
+
+> dpkg -L influxdb2
+
+> influx version
+
+> systemctl start/stop/restart/enable influxdb
+
+Setup influx 
+
+> influx setup
+
+```basher
+> Welcome to InfluxDB 2.0!
+? Please type your primary username cyberithub
+? Please type your password *********
+? Please type your password again *********
+? Please type your primary organization name CyberITHub
+? Please type your primary bucket name cyberithub_bucket
+? Please type your retention period in hours, or 0 for infinite 0
+? Setup with these parameters?
+Username: cyberithub
+Organization: CyberITHub
+Bucket: cyberithub_bucket
+Retention Period: infinite
+Yes
+User Organization Bucket
+cyberithub CyberITHub cyberithub_bucket
 ```
