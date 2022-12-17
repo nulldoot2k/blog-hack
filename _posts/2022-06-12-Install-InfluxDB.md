@@ -1,6 +1,8 @@
 ---
+layout: post
 title: Install InfluxDB
 published: true
+permalink: influxdb.html
 ---
 
 Step1
