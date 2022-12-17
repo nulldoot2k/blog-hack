@@ -8,12 +8,9 @@
     <div class="container">
 
       {% if page.url == "/" %}
-      <b style="font-size: 24px;">👻LUẬT❤️‍🔥</b><br>
-      - Bài học số 1: Chết chóc<br>
-      - Bài học số 2: Không tiết lộ danh tính, không nói về nhóm và không tấn công truyền thông<br>
-      - Bài học số 3: Ở đây tao là luật <br>
-
-      - Tham gia kênh chat: <b><a style="text-decoration: none;" href="https://webchat.anonops.com">AnonOps</a></b>
+      <!-- add markdown to html -->
+      {% capture my_include %}{% include rules.md %}{% endcapture %}
+      {{ my_include | markdownify }}      
       {% endif %}
 
       <section id="main_content" style="margin-top: 20px;">
