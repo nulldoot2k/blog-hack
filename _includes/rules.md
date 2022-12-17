@@ -4,7 +4,7 @@
 - Share thông tin đăng nhập thị trường/dịch vụ thanh toán dưới bất kỳ hình thức nào
 - Mạo danh người dùng, thông tin cá nhân từ người dùng khác.
 
-# Thông Minh 
+# Thông Minh
 - Chia sẻ ảnh qua url **[Imgur](https://imgur.com/)**
 
   ```bash
@@ -23,7 +23,13 @@
 
 > cat namefile `|` nc termbin.com 9999
 
+---
+
 <p markdown=span align=center>
 Tham gia kênh chat ~ <b><a style="text-decoration: none;" href="https://webchat.anonops.com">AnonOps</a></b>
 </p>
+
+> IRSSI
+  - **/connect irc.libera.chat** 💨 **/nick nickname** 💨 **/join #nulldoot**
+
 ---
