@@ -1,21 +1,19 @@
 ---
-title: Yet Another Sample Page
+title: Install InfluxDB
 published: true
 ---
 
-## Install InfluxDB
-
 Step1
 
-> sudo curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+> **sudo curl -sL https://repos.influxdata.com/influxdb.key ``|`` sudo apt-key add -**
 
 Step 2
 
-> sudo echo "deb https://repos.influxdata.com/ubuntu bionic stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+> **sudo echo "deb https://repos.influxdata.com/ubuntu bionic stable" `|` sudo tee /etc/apt/sources.list.d/influxdb.list**
 
 Step 3
 
-> sudo apt update
+> **sudo apt update**
 
 Step 4
 
@@ -55,11 +53,11 @@ remote_read:
 
 ## Reload Service
 
-```bash
+```sql
 systemctl start influxdb
 systemctl enable influxdb
 
-echo 'CREATE DATABASE "prometheus"' | influx
+echo 'CREATE DATABASE "prometheus"' `|` influx
 
 systemctl start prometheus
 systemctl status prometheus
@@ -119,11 +117,11 @@ SHOW all existing users and their admin status
 
 ## InfluxDB 2
 
-> wget -qO- https://repos.influxdata.com/influxdb.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/influxdb.gpg > /dev/null
+> wget -qO- https://repos.influxdata.com/influxdb.key `|` gpg --dearmor `|` sudo tee /etc/apt/trusted.gpg.d/influxdb.gpg > /dev/null
 
 > export DISTRIB_ID=$(lsb_release -si); export DISTRIB_CODENAME=$(lsb_release -sc)
 
-> echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list > /dev/null
+> echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" `|` sudo tee /etc/apt/sources.list.d/influxdb.list > /dev/null
 
 > apt-get update
 
@@ -141,7 +139,7 @@ Setup influx
 
 > influx setup
 
-```basher
+```context
 > Welcome to InfluxDB 2.0!
 ? Please type your primary username cyberithub
 ? Please type your password *********
