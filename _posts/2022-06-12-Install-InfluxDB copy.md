@@ -1,9 +1,11 @@
 ---
-layout: post
-title: Install InfluxDB
-published: true
-permalink: influxdb.html
+# layout: post
+# title: Install InfluxDB
+# published: true
+permalink: /influxdb.html
 ---
+
+## Install InfluxDB
 
 Step1
 

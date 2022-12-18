@@ -6,10 +6,16 @@ author:
   url: ""
 
 baseurl: /
+urls:
+  - text: Home
+    url: /
+  - text: Hidden
+    url: /hidden
 
 source: .
 destination: ./_site
-permalink: /:title
+# permalink: /:title
+permalink: pretty
 paginate: 3
 paginate_path: /page/:num/
 

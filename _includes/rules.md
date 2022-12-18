@@ -1,27 +1,34 @@
-# Cấm - 👻LUẬT❤️‍🔥
-- Share Nội dung khiêu dâm 
-- Spam Message
-- Share thông tin đăng nhập thị trường/dịch vụ thanh toán dưới bất kỳ hình thức nào
-- Mạo danh người dùng, thông tin cá nhân từ người dùng khác.
+# RULES - 👻LUẬT❤️‍🔥
+---
 
-# Thông Minh
+<center>
+*<br>
+* *<br>
+No Racism - Không phân biệt chủng tộc<br>
+No Homophobia - Không kỳ thị đồng tính<br>
+No Targeted Harassment - Không mục tiêu quấy rối<br>
+No Spam Channel - Không spam kênh chat<br>
+No NSFW Content - Không có nội dung NSFW<br>
+Plz Respect Everyone  - Tôn trọng mọi người<br>
+* *<br>
+*<br>
+</center>
+
+---
+
+# MLEM - MLEM🤪
 - Chia sẻ ảnh qua url **[Imgur](https://imgur.com/)**
 
   ```bash
-  HTTP POST files here:
+  HTTP POST files here: add "-Fsecret="
       curl -F'file=@yourfile.png' https://0x0.st
-  You can also POST remote URLs:
+  You can also POST remote URLs: add "-Fsecret="
       curl -F'url=http://example.com/image.jpg' https://0x0.st
-  If you don't want the resulting URL to be easy to guess:
-      curl -F'file=@yourfile.png' -Fsecret= https://0x0.st
-      curl -F'url=http://example.com/image.jpg' -Fsecret= https://0x0.st
   ```
 
 - Chia sẻ văn bản qua **[Notes](https://rentry.co)**
 
-> cat namefile `|` nc ircnow.org 7777
-
-> cat namefile `|` nc termbin.com 9999
+> cat namefile `|` nc ircnow.org 7777 or nc termbin.com 9999
 
 ---
 
@@ -29,7 +36,5 @@
 Tham gia kênh chat ~ <b><a style="text-decoration: none;" href="https://webchat.anonops.com">AnonOps</a></b>
 </p>
 
-> IRSSI
+> IRSSI - apt install irssi
   - **/connect irc.libera.chat** 💨 **/nick nickname** 💨 **/join #nulldoot**
-
----
