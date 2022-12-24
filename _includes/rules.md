@@ -3,7 +3,7 @@
 
 <center>
 <b>No Racism - Không phân biệt chủng tộc</b><br>
-<b>No Homophobia - Không kỳ thị đồng tính</b><br>
+<b>No Homophobia - Không kỳ thị đồng tính</b><br> 
 <b>No Targeted Harassment - Không mục tiêu quấy rối</b><br>
 <b>No Spam Channel - Không spam kênh chat</b><br>
 <b>No NSFW Content - Không có nội dung NSFW</b><br>
@@ -13,7 +13,7 @@
 ---
 
 # MLEM - MLEM🤪
-- Tài liệu tham khảo [Reference](ls/)
+- Tàng thư các [Docs](robots.txt)
   > Hãy đọc nguyên tắc, điều luật của tôi ở trên
 
 - Chia sẻ ảnh qua url **[Imgur](https://imgur.com/)**

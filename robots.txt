@@ -1,2 +1,14 @@
 User-agent: *
 Disallow: /contact.html
+
+--- Reference ---
+Kubernetes -> k8s.html
+Docker -> docker.html
+InfluxDB -> influxdb.html
+Helm Chart -> helm.html
+Grafana Dashoard -> grafana.html
+
+
+---
+https://prometheus-operator.dev
+Up : git remote set-url origin https://[APPLICATION]:[NEW TOKEN]@github.com/[ORGANISATION]/[REPO].git
