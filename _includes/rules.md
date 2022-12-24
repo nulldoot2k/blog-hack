@@ -2,21 +2,20 @@
 ---
 
 <center>
-*<br>
-* *<br>
-No Racism - Không phân biệt chủng tộc<br>
-No Homophobia - Không kỳ thị đồng tính<br>
-No Targeted Harassment - Không mục tiêu quấy rối<br>
-No Spam Channel - Không spam kênh chat<br>
-No NSFW Content - Không có nội dung NSFW<br>
-Plz Respect Everyone  - Tôn trọng mọi người<br>
-* *<br>
-*<br>
+<b>No Racism - Không phân biệt chủng tộc</b><br>
+<b>No Homophobia - Không kỳ thị đồng tính</b><br>
+<b>No Targeted Harassment - Không mục tiêu quấy rối</b><br>
+<b>No Spam Channel - Không spam kênh chat</b><br>
+<b>No NSFW Content - Không có nội dung NSFW</b><br>
+<b>Plz Respect Everyone  - Tôn trọng mọi người</b><br>
 </center>
 
 ---
 
 # MLEM - MLEM🤪
+- Tài liệu tham khảo [Reference](ls/)
+  > Hãy đọc nguyên tắc, điều luật của tôi ở trên
+
 - Chia sẻ ảnh qua url **[Imgur](https://imgur.com/)**
 
   ```bash

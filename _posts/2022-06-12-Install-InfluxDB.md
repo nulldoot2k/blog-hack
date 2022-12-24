@@ -2,7 +2,7 @@
 # layout: post
 # title: Install InfluxDB
 # published: true
-permalink: /influxdb.html
+permalink: ls/influxdb.html
 ---
 
 ## Install InfluxDB
