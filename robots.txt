@@ -2,6 +2,7 @@ User-agent: *
 Disallow: /contact.html
 
 --- Reference ---
+Format: /ls/
 Kubernetes -> k8s.html
 Docker -> docker.html
 InfluxDB -> influxdb.html
