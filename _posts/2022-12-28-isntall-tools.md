@@ -238,10 +238,10 @@ sudo kubeadm config images pull --cri-socket unix:///run/cri-dockerd.sock
 Đây là các tùy chọn khởi tạo kubeadm cơ bản được sử dụng để khởi động cụm.
 
 ```bash
---control-plane-endpoint :  set the shared endpoint for all control-plane nodes. Can be DNS/IP
---pod-network-cidr : Used to set a Pod network add-on CIDR
---cri-socket : Use if have more than one container runtime to set runtime socket path
---apiserver-advertise-address : Set advertise address for this particular control-plane node's API server
+--control-plane-endpoint :  đặt điểm endpoint chung cho tất cả control-plane nodes. Có thể là DNS/IP
+--pod-network-cidr : Được sử dụng để đặt CIDR tiện ích bổ sung cho mạng Pod
+--cri-socket : Sử dụng nếu có nhiều container runtime để đặt đường dẫn runtime socket.
+--apiserver-advertise-address : Đặt địa chỉ quảng cáo cho Server API của control-plane node cụ thể này
 ```
 
 Để khởi động một cụm mà không sử dụng điểm cuối DNS, hãy chạy
