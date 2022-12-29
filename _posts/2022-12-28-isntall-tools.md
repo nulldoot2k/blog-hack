@@ -139,6 +139,9 @@ apt show cri-o
 
 # Update CRI-O CIDR subnet
 sudo sed -i 's/10.85.0.0/192.168.0.0/g' /etc/cni/net.d/100-crio-bridge.conf
+# chú ý: nhìn vào ip a --> để xem ip cần set bridge
+	# docker0: 172.17.0.1/16 --> 172.17.0.0/16 
+	# cni0: 10.85.0.1/16 --> 10.85.0.0/16 
 
 # Start and enable Service
 sudo systemctl daemon-reload
