@@ -157,11 +157,13 @@ sudo systemctl status crio
 sudo tee /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
+ebtable_broute
 EOF
 
 # Load at runtime
 sudo modprobe overlay
 sudo modprobe br_netfilter
+sudo modprobe ebtable_broute
 
 # Ensure sysctl params are set
 sudo tee /etc/sysctl.d/kubernetes.conf<<EOF
@@ -235,7 +237,7 @@ sudo kubeadm config images pull --cri-socket unix:///var/run/crio/crio.sock
 sudo kubeadm config images pull --cri-socket unix:///run/containerd/containerd.sock
 
 # Docker
-sudo kubeadm config images pull --cri-socket unix:///run/cri-dockerd.sock 
+sudo kubeadm config images pull --cri-socket unix:///run/cri-dockerd.sock
 ```
 
 Đây là các tùy chọn khởi tạo kubeadm cơ bản được sử dụng để khởi động cụm.
