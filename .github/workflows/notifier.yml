@@ -16,9 +16,9 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
         message: |
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
+            ::set-output name=date::$(date +'%Y-%m-%d')
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
