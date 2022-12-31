@@ -22,6 +22,7 @@ jobs:
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
-            Date: $TIME
+            Date: {{ $TIME }}
+            Date: ${{ TIME }}
             Changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
