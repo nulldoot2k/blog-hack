@@ -16,12 +16,9 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
         message: |
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-    - name: Get yesterday's date
-      id: ydate
-      run: |
-        echo "::set-output name=ydate::$(date -d "yesterday 22:0" +'%Y-%m-%d')"  # add :: before set-ouput
