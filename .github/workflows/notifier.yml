@@ -20,5 +20,11 @@ jobs:
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
-            Date: ${{ github.created_at }}
             Changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+    - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          timeZone: 8
+          format: 'YYYY-MM-DD-HH-mm-ss'
