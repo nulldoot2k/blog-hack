@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: send custom message
       uses: appleboy/telegram-action@master
+      env:
+        TIME: "${{ steps.time.outputs.time }}"
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
@@ -20,11 +22,6 @@ jobs:
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
+            Date: $TIME
             Changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-    - name: Get Time
-      id: time
-      uses: nanzm/get-time-action@v1.1
-      with:
-        timeZone: 8
-        format: 'YYYY-MM-DD-HH-mm-ss'
