@@ -568,6 +568,7 @@ done
 
 ### The Encryption Key
 
+```bash
 ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
 
 cat > encryption-config.yaml <<EOF
@@ -587,7 +588,7 @@ EOF
 for instance in k8s-controller-0 k8s-controller-1 k8s-controller-2; do
   scp encryption-config.yaml root@${instance}:~/
 done
-
+```
 
 ### controller 0
 
