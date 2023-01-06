@@ -2,29 +2,96 @@
 permalink: ls/install-tools.html
 ---
 
+## Linux
+```bash
+Runtime					Path to Unix domain socket
+containerd				unix:///var/run/containerd/containerd.sock
+CRI-O					unix:///var/run/crio/crio.sock
+Docker Engine (using cri-dockerd)	unix:///var/run/cri-dockerd.sock
+```
+
+## Update
+
+> sudo apt-get update 
+
+## Install docker
+
+- Lý thuyết: [Docker](docker.html)
+
+> sudo apt-get remove docker docker-engine docker.io containerd runc
+
+> sudo apt-get update
+
+> sudo apt-get install ca-certificates curl gnupg lsb-release
+    
+> sudo mkdir -p /etc/apt/keyrings
+
+> curl -fsSL https://download.docker.com/linux/ubuntu/gpg `|` sudo gpg `--dearmor` -o /etc/apt/keyrings/docker.gpg
+
+> sudo apt-get update
+
+> sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+> sudo apt-get update
+
+> sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+> sudo usermod -aG docker $USER
+
+> newgrp docker
+
+## Install Go
+
+> wget https://go.dev/dl/go1.19.4.linux-amd64.tar.gz
+
+> rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.4.linux-amd64.tar.gz
+
+> export PATH=$PATH:/usr/local/go/bin
+
+> go version
+
+## Cri Dockerd
+
+```bash
+cd cri-dockerd
+mkdir bin
+go build -o bin/cri-dockerd
+mkdir -p /usr/local/bin
+install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
+cp -a packaging/systemd/* /etc/systemd/system
+sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+systemctl daemon-reload
+systemctl enable cri-docker.service
+systemctl enable --now cri-docker.socket
+```
 
 ## Install k8s
 
-add package
+Update the apt package index and install packages needed to use the Kubernetes apt repository:
 
 ```bash
-sudo apt -y install curl apt-transport-https
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
 ```
 
-install package
+Download the Google Cloud public signing key:
 
 ```bash
-sudo apt update
-sudo apt -y install vim git curl wget kubelet kubeadm kubectl
-sudo apt-mark hold kubelet kubeadm kubectl
+sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 ```
 		
-check version package
+Add the Kubernetes apt repository:
 
 ```bash
-kubectl version --client && kubeadm version
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+```
+
+Update apt package index, install kubelet, kubeadm and kubectl, and pin their version:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
 tắt swap
@@ -45,23 +112,40 @@ sudo mount -a
 free -h
 ```
 
-Kích hoạt các mô-đun hạt nhân và định cấu hình sysctl.
+Cài đặt và cấu hình điều kiện tiên quyết, Kích hoạt các mô-đun hạt nhân và định cấu hình sysctl.
+
+```bash
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+```
 
 ```bash
 # Enable kernel modules
 sudo modprobe overlay
 sudo modprobe br_netfilter
 
-# Add some settings to sysctl
-sudo tee /etc/sysctl.d/kubernetes.conf<<EOF
+# sysctl params required by setup, params persist across reboots
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
 net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-net.ipv4.ip_forward = 1
+net.ipv4.ip_forward                 = 1
 EOF
 
-# Reload sysctl
+# Apply sysctl params without reboot
 sudo sysctl --system
 ```
+
+Xác minh rằng các mô-đun br_netfilter, lớp phủ được tải bằng cách chạy các hướng dẫn bên dưới:
+```bash
+lsmod | grep br_netfilter
+lsmod | grep overlay
+```
+
+> sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+
+---
 
 Cài đặt thời gian chạy vùng chứa container
 
@@ -272,7 +356,7 @@ sudo kubeadm init \
 
 ```bash
 $ sudo vim /etc/hosts
-172.29.20.5 k8s-cluster.computingforgeeks.com
+172.29.20.5 k8s-cluster.nulldoot2k.com
 ```
 
 ## Create cluster:
@@ -280,8 +364,8 @@ $ sudo vim /etc/hosts
 ```bash
 sudo kubeadm init \
   --pod-network-cidr=192.168.0.0/16 \
-  --upload-certs \
-  --control-plane-endpoint=k8s-cluster.computingforgeeks.com
+  --cri-socket --cri-socket unix:///run/cri-dockerd.sock \
+  --apiserver-advertise-address=172.29.20.5
 ```
 
 Bạn có thể tùy chọn chuyển tệp Ổ cắm cho thời gian chạy và địa chỉ quảng cáo tùy thuộc vào thiết lập của bạn.

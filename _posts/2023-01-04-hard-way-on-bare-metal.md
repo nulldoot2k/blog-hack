@@ -549,7 +549,7 @@ sudo etcdctl member list \
 
 # ===================
 
-
+```bash
 {
 
 cat > ca-config.json <<EOF
@@ -590,9 +590,11 @@ EOF
 cfssl gencert -initca ca-csr.json | cfssljson -bare ca
 
 }
+```
 
 # ==============
 
+```bash
 {
 
 cat > admin-csr.json <<EOF
@@ -622,9 +624,11 @@ cfssl gencert \
   admin-csr.json | cfssljson -bare admin
 
 }
+```
 
 # ==============
 
+```bash
 for instance in worker-0 worker-1 worker-2; do
 cat > ${instance}-csr.json <<EOF
 {
@@ -681,7 +685,7 @@ cfssl gencert \
   -profile=kubernetes \
   ${instance}-csr.json | cfssljson -bare ${instance}
 done
-
+```
 
 
 ```bash

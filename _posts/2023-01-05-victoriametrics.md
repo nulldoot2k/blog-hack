@@ -99,9 +99,11 @@ Victoria Metris
 
 > helm install victoria vm/victoria-metrics-k8s-stack -f values.yaml -n victoriametrics
 
-> kubectl get secret --namespace victoriametrics victoria-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+> kubectl get secret `--namespace` victoriametrics victoria-grafana -o jsonpath="{.data.admin-password}" `|` base64 `--decode` ; echo
 
 ```bash
 --> htV9dp11RStwf125Q0xmaxSvH3M46GF4aVTl6MIs
 ```
+
+
 
