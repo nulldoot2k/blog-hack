@@ -34,3 +34,8 @@ permalink: ls/victoria-new.html
 > helm uninstall node-exporter
 
 > helm uninstall vmagent -n victoriametrics
+
+## Account
+
+- Grafana
+> admin : UX3Ev4jUAgl8BNOTuvIboGPmSAjJZHOmdth08iUv
