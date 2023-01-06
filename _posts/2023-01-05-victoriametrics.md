@@ -12,7 +12,6 @@ helm install node-exporter prometheus-community/prometheus-node-exporter --names
 helm install kube-state-metrics prometheus-community/kube-state-metrics --namespace monitoring
 ```
 
-
 Step 
 
 > git clone https://github.com/dotdc/grafana-dashboards-kubernetes.git

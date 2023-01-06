@@ -14,7 +14,7 @@ Docker Engine (using cri-dockerd)	unix:///var/run/cri-dockerd.sock
 
 > sudo apt-get update 
 
-## Install docker
+## Install Docker
 
 - Lý thuyết: [Docker](docker.html)
 
@@ -28,6 +28,10 @@ Docker Engine (using cri-dockerd)	unix:///var/run/cri-dockerd.sock
 
 > curl -fsSL https://download.docker.com/linux/ubuntu/gpg `|` sudo gpg `--dearmor` -o /etc/apt/keyrings/docker.gpg
 
+> echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
 > sudo apt-get update
 
 > sudo chmod a+r /etc/apt/keyrings/docker.gpg
@@ -40,7 +44,7 @@ Docker Engine (using cri-dockerd)	unix:///var/run/cri-dockerd.sock
 
 > newgrp docker
 
-## Install Go
+## Install GoLang
 
 > wget https://go.dev/dl/go1.19.4.linux-amd64.tar.gz
 
@@ -50,7 +54,7 @@ Docker Engine (using cri-dockerd)	unix:///var/run/cri-dockerd.sock
 
 > go version
 
-## Cri Dockerd
+## Install DockerCE
 
 ```bash
 cd cri-dockerd
@@ -510,5 +514,29 @@ k8s-worker01.computingforgeeks.com   Ready    <none>   50s   v1.24.3
 k8s-worker02.computingforgeeks.com   Ready    <none>   12s   v1.24.3
 ```
 
+---
 
+> kubectl describe node vy-nulldoot2k | grep -i tain
+```bash
+--> Taints:             node-role.kubernetes.io/control-plane:NoSchedule
+```
 
+> kubectl taint node vy-nulldoot2k node-role.kubernetes.io/control-plane:NoSchedule-
+```bash
+node/vy-nulldoot2k untainted
+```
+
+> kubectl describe node vy-nulldoot2k | grep -i tain
+```bash
+Taints:             <none>
+```
+
+## Nginx
+
+> kubectl run --image=nginx webapp-nginx -n default
+
+> kubectl get pods -o wide
+
+> kubectl get svc -o wide
+
+> kubectl expose pod webapp-nginx --port=80 --name="webapp-svc" --type='NodePort'
