@@ -128,3 +128,11 @@ https://prometheus.io/
 
 > helm install kube-state-metrics prometheus-community/kube-state-metrics --namespace monitoring
 
+kubectl -n monitoring get secret prometheus-grafana -o jsonpath="{.data.admin-password}" `|` base64 --decode ;
+
+kubectl -n monitoring patch svc vmagent -p '{"spec": {"type": "NodePort"}}'
+
+
+- URL of service is in the below format:
+> <service-name>.<namespace>.svc.cluster.local:<service-port>
+
