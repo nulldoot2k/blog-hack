@@ -1,5 +1,5 @@
 ---
-permalink: ls/monitoring
+permalink: ls/prometheus-monitoring-stack-k8s.html
 ---
 
 ### Prometheus

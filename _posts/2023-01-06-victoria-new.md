@@ -78,6 +78,7 @@ spec: --> Mô tả về các thông số kỹ thuật của Pod
 
 > helm install prometheus -n monitor prometheus-community/prometheus
 
+```bash
 NAME: prometheus
 LAST DEPLOYED: Mon Jan  9 10:17:31 2023
 NAMESPACE: pro
@@ -120,7 +121,7 @@ Get the PushGateway URL by running these commands in the same shell:
 
 For more information on running Prometheus, visit:
 https://prometheus.io/
-
+```
 
 ---
 
