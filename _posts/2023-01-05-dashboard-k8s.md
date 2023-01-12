@@ -28,10 +28,14 @@ vy-gr                                 NotReady   <none>    10d   v1.26.0   10.20
 
 > kubectl edit svc kubernetes-dashboard -n kubernetes-dashboard
 ```bash
+kubectl --namespace kubernetes-dashboard patch svc kubernetes-dashboard -p '{"spec": {"type": "NodePort"}}'
+```
+```bash
 change: ClusterIP --> NodePort
 add: 	nodePort: 32331
 :x --> EXIT AND SAVED
 ```
+
 
 > kubectl get sa -n kubernetes-dashboard
 ```bash

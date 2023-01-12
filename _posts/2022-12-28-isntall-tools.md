@@ -2,6 +2,8 @@
 permalink: ls/install-tools.html
 ---
 
+## Step Create Cluster
+
 ## Linux
 ```bash
 Runtime					Path to Unix domain socket
@@ -35,8 +37,10 @@ go version
 ```bash
 cd cri-dockerd
 mkdir bin
+VERSION=$((git describe --abbrev=0 --tags | sed -e 's/v//') || echo $(cat VERSION)-$(git log -1 --pretty='%h')) PRERELEASE=$(grep -q dev <<< "${VERSION}" && echo "pre" || echo "") REVISION=$(git log -1 --pretty='%h')
+go build -ldflags="-X github.com/Mirantis/cri-dockerd/version.Version='$VERSION}' -X github.com/Mirantis/cri-dockerd/version.PreRelease='$PRERELEASE' -X github.com/Mirantis/cri-dockerd/version.BuildTime='$BUILD_DATE' -X github.com/Mirantis/cri-dockerd/version.GitCommit='$REVISION'" -o cri-dockerd
 go build -o bin/cri-dockerd
-mkdir -p /usr/local/bin
+mkdir -p /usr/bin/local
 install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
 cp -a packaging/systemd/* /etc/systemd/system
 sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
@@ -45,87 +49,9 @@ systemctl enable cri-docker.service
 systemctl enable --now cri-docker.socket
 ```
 
-- [Cài đặt thời gian chạy vùng chứa container](install-tools.html#cài-đặt-thời-gian-chạy-vùng-chứa-container)
-
 ## Install k8s
 
-Update the apt package index and install packages needed to use the Kubernetes apt repository:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y apt-transport-https ca-certificates curl
-```
-
-Download the Google Cloud public signing key:
-
-```bash
-sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-```
-		
-Add the Kubernetes apt repository:
-
-```bash
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-```
-
-Update apt package index, install kubelet, kubeadm and kubectl, and pin their version:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
-sudo apt-mark hold kubelet kubeadm kubectl
-```
-
-tắt swap
-
-```bash
-sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-```
-
-```bash
-$ sudo vim /etc/fstab
-#/swap.img	none	swap	sw	0	0
-```
-
-Xác nhận cài đặt là chính xác
-
-```bash
-sudo mount -a
-free -h
-```
-
-Cài đặt và cấu hình điều kiện tiên quyết, Kích hoạt các mô-đun hạt nhân và định cấu hình sysctl.
-
-```bash
-cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-overlay
-br_netfilter
-EOF
-```
-
-```bash
-# Enable kernel modules
-sudo modprobe overlay
-sudo modprobe br_netfilter
-
-# sysctl params required by setup, params persist across reboots
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-iptables  = 1
-net.bridge.bridge-nf-call-ip6tables = 1
-net.ipv4.ip_forward                 = 1
-EOF
-
-# Apply sysctl params without reboot
-sudo sysctl --system
-```
-
-Xác minh rằng các mô-đun br_netfilter, lớp phủ được tải bằng cách chạy các hướng dẫn bên dưới:
-```bash
-lsmod | grep br_netfilter
-lsmod | grep overlay
-```
-
-> sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+- Link: [Kubernetes](k8s.html#install-k8s)
 
 ---
 
@@ -341,12 +267,12 @@ $ sudo vim /etc/hosts
 172.29.20.5 k8s-cluster.nulldoot2k.com
 ```
 
-## Create cluster:
+## Create cluster
 
 ```bash
 sudo kubeadm init \
   --pod-network-cidr=192.168.0.0/16 \
-  --cri-socket --cri-socket unix:///run/cri-dockerd.sock \
+  --cri-socket unix:///run/cri-dockerd.sock \
   --apiserver-advertise-address=172.29.20.5
 ```
 
